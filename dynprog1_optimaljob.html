@@ -1,0 +1,76 @@
+<html>
+<head>
+<script type="application/javascript">
+function changeh1()
+{
+	alert("hi");
+	document.getElementById('ex1').innerHTML='My SECOND javascript';
+}
+function changeh2()
+{
+	console.log(32+6);
+}
+function createXHR()
+{
+	if(window.XMLHttpRequest)
+	{
+		return new XMLHttpRequest();
+	}
+	else if(window.ActiveXObject)
+	{
+		var active=["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0"];
+		for (var i = 0; i < active.length; i++) {
+			try
+			{
+				var oxhr=new ActiveXObject(active[i]);
+				return oxhr;
+			}
+			catch(e)
+			{
+				//suppress error
+			}
+		}
+	}
+	//throw new error("XMLHttp object could not be created");
+	
+}
+
+function store_access()
+{
+	//alert("ok!!");
+var ajxobj=new createXHR();
+//alert("ok!!");
+
+//
+ajxobj.onreadystatechange=function(){
+//alert(ajxobj);
+	if(ajxobj.readyState == 4)
+	{
+		///alert(ajxobj.responseText.toString());
+var jObj=JSON.parse(ajxobj.responseText);
+//alert("ok!!");
+var jObj1=jObj.student;
+
+for(var i=0;i<jObj1.length;i++)
+{
+	var e1=document.createElement("P");
+	e1.appendChild(document.createTextNode("Name : "+jObj1[i].name.toString()+"   Age : "+jObj1[i].age.toString()
+		+"   Gender : "+jObj1[i].gender.toString()));
+//e1.appendChild(document.createTextNode("pushkar"));
+//alert(jObj1.length);
+	document.body.appendChild(e1);
+}
+}
+}
+ajxobj.open("get","store1.json",true);
+ajxobj.send();
+}
+</script>
+</head>
+<body>
+<h1 id="ex1">My first javascript....</h1>
+<p>hi</p>
+<button onclick="store_access()">get json</button>
+</body>
+
+</html>
